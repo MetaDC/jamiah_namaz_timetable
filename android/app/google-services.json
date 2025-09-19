@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "532106864560",
+    "project_id": "jamiah-timetable",
+    "storage_bucket": "jamiah-timetable.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:532106864560:android:04ffd64f95ae0f44a01875",
+        "android_client_info": {
+          "package_name": "com.diwizon.jamiah_namaz_timetable"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjX1pBz6Gl9UXd9ItjIWrN1lcgp3ZVuMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
