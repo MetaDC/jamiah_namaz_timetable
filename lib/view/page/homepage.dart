@@ -1,27 +1,7 @@
-// import 'package:flutter/material.dart';
-
-// class MyHomePage extends StatefulWidget {
-//   const MyHomePage({super.key});
-
-//   @override
-//   State<MyHomePage> createState() => _MyHomePageState();
-// }
-
-// class _MyHomePageState extends State<MyHomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Text("Jamiah_Riyazul_Namaz_TimeTable"),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jamiah_namaz_timetable/controller/homecntrl.dart'; // import controller
-import 'package:jamiah_namaz_timetable/model/settingmodel.dart'; // import model
+import 'package:jamiah_namaz_timetable/controller/homecntrl.dart';
+import 'package:jamiah_namaz_timetable/view/page/cardpage.dart';
 
 class NamazTimePage extends StatefulWidget {
   const NamazTimePage({super.key});
@@ -35,7 +15,6 @@ class _NamazTimePageState extends State<NamazTimePage> {
   static const Color deepIndigo = Color(0xFF2C326F);
   static const Color pureWhite = Colors.white;
 
-  final TextEditingController islamicDateController = TextEditingController();
   final List<String> namazOrder = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
   final List<String> extraOrder = [
     "Sehri",
@@ -46,14 +25,75 @@ class _NamazTimePageState extends State<NamazTimePage> {
     "Gurebe Aftab",
   ];
 
+  final islamicMonths = [
+    "મહોરમ",
+    "સફર",
+    "રબ્બિ ઉલ અવલ",
+    "રબ્બિ ઉલ આખિર",
+    "જમાદિ ઉલ અવલ",
+    "જમાદિ ઉલ આખિર",
+    "રજ્જબ",
+    "શાબાન",
+    "રમઝાન",
+    "સવાલ",
+    "જિલકદ",
+    "જિલહજ",
+  ];
+
+  final islamicDayNames = [
+    "શનિચર",
+    "ઇતવાર",
+    "પીર",
+    "મંગલ",
+    "બુધ",
+    "જુમ્એરાત",
+    "જુમ્મા",
+  ];
+
+  late List<int> islamicYears;
+  late List<String> islamicYearsGujarati;
+  final List<String> islamicDaysGujarati = List.generate(30, (i) {
+    final number = i + 1;
+
+    final gujaratiNumber = number
+        .toString()
+        .split('')
+        .map((d) => String.fromCharCode(0x0AE6 + int.parse(d)))
+        .join();
+    return gujaratiNumber;
+  });
   DateTime englishDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
-    // fetch data when page opens
-    Future.delayed(Duration.zero, () {
-      Get.find<Homecntrl>().fetchData();
+
+    final currentYear = DateTime.now().year + 579;
+    islamicYears = [currentYear - 1, currentYear, currentYear + 1];
+
+    Future.delayed(Duration.zero, () async {
+      final ctrl = Get.find<Homecntrl>();
+      await ctrl.fetchData();
+
+      if (ctrl.namazData != null) {
+        final savedYear = ctrl.namazData!.islamicYear;
+        if (savedYear != null && !islamicYears.contains(savedYear)) {
+          islamicYears.add(savedYear);
+          islamicYears.sort();
+        }
+      }
+
+      islamicYearsGujarati = islamicYears
+          .map(
+            (y) => y
+                .toString()
+                .split('')
+                .map((d) => String.fromCharCode(0x0AE6 + int.parse(d)))
+                .join(),
+          )
+          .toList();
+
+      setState(() {});
     });
   }
 
@@ -149,7 +189,6 @@ class _NamazTimePageState extends State<NamazTimePage> {
           );
         }
 
-        islamicDateController.text = controller.namazData!.islamicDate;
         englishDate = controller.namazData!.englishDate;
 
         return Scaffold(
@@ -159,33 +198,6 @@ class _NamazTimePageState extends State<NamazTimePage> {
               style: TextStyle(color: Colors.white),
             ),
             backgroundColor: deepIndigo,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  islamicDateController.clear();
-                  final clearedNamaz = Map<String, dynamic>.from(
-                    controller.namazData!.namazTime,
-                  );
-                  clearedNamaz.forEach((k, v) {
-                    v['start'] = '';
-                    v['end'] = '';
-                  });
-                  final clearedExtra = Map<String, dynamic>.from(
-                    controller.namazData!.extraTime,
-                  );
-                  clearedExtra.updateAll((key, value) => '');
-                  controller.namazData = controller.namazData!.copyWith(
-                    islamicDate: '',
-                    englishDate: DateTime.now(),
-                    namazTime: clearedNamaz,
-                    extraTime: clearedExtra,
-                  );
-                  controller.update();
-                },
-                icon: const Icon(Icons.refresh),
-                tooltip: 'Reset',
-              ),
-            ],
           ),
           body: Stack(
             children: [
@@ -194,7 +206,6 @@ class _NamazTimePageState extends State<NamazTimePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// DATES CARD
                     Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -207,69 +218,150 @@ class _NamazTimePageState extends State<NamazTimePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "Dates",
+                              "Islamic Date",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(height: 8),
-                            TextField(
-                              controller: islamicDateController,
+                            const SizedBox(height: 12),
+
+                            DropdownButtonFormField<String>(
+                              value: controller.namazData!.islamicDay != null
+                                  ? islamicDaysGujarati[controller
+                                            .namazData!
+                                            .islamicDay! -
+                                        1]
+                                  : null,
+                              items: islamicDaysGujarati
+                                  .map(
+                                    (d) => DropdownMenuItem(
+                                      value: d,
+                                      child: Text(d),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (val) {
+                                final index =
+                                    islamicDaysGujarati.indexOf(val!) + 1;
+                                controller.namazData = controller.namazData!
+                                    .copyWith(islamicDay: index);
+                                controller.update();
+                              },
                               decoration: const InputDecoration(
-                                labelText: "Islamic Date (string)",
+                                labelText: "Day",
                                 border: OutlineInputBorder(),
                               ),
-                              onChanged: (val) {
-                                controller.namazData = controller.namazData!
-                                    .copyWith(islamicDate: val);
-                              },
                             ),
-                            const SizedBox(height: 12),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 8,
-                                      horizontal: 12,
+
+                            SizedBox(height: 10),
+
+                            DropdownButtonFormField<String>(
+                              value:
+                                  islamicMonths.contains(
+                                    controller.namazData!.islamicMonth,
+                                  )
+                                  ? controller.namazData!.islamicMonth
+                                  : null,
+                              items: islamicMonths
+                                  .map(
+                                    (m) => DropdownMenuItem(
+                                      value: m,
+                                      child: Text(m),
                                     ),
-                                    decoration: BoxDecoration(
-                                      color: pureWhite,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: deepIndigo.withOpacity(0.2),
-                                      ),
+                                  )
+                                  .toList(),
+                              onChanged: (val) {
+                                if (val != null) {
+                                  controller.namazData = controller.namazData!
+                                      .copyWith(islamicMonth: val);
+                                  controller.update();
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                labelText: "Month",
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+
+                            DropdownButtonFormField<int>(
+                              value: controller.namazData!.islamicYear,
+                              items: List.generate(islamicYears.length, (
+                                index,
+                              ) {
+                                return DropdownMenuItem(
+                                  value: islamicYears[index],
+                                  child: Text(islamicYearsGujarati[index]),
+                                );
+                              }),
+                              onChanged: (val) {
+                                if (val != null) {
+                                  controller.namazData = controller.namazData!
+                                      .copyWith(islamicYear: val);
+                                  controller.update();
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                labelText: "Year",
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+
+                            DropdownButtonFormField<String>(
+                              value:
+                                  islamicDayNames.contains(
+                                    controller.namazData!.islamicDayName,
+                                  )
+                                  ? controller.namazData!.islamicDayName
+                                  : null,
+                              items: islamicDayNames
+                                  .map(
+                                    (dn) => DropdownMenuItem(
+                                      value: dn,
+                                      child: Text(dn),
                                     ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text(
-                                          "English Date",
-                                          style: TextStyle(fontSize: 12),
-                                        ),
-                                        const SizedBox(height: 6),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "${controller.namazData!.englishDate.toLocal().toString().split(' ').first}",
-                                              style: const TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  pickEnglishDate(controller),
-                                              child: const Text("Change"),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                  )
+                                  .toList(),
+                              onChanged: (val) {
+                                if (val != null) {
+                                  controller.namazData = controller.namazData!
+                                      .copyWith(islamicDayName: val);
+                                  controller.update();
+                                }
+                              },
+                              decoration: const InputDecoration(
+                                labelText: "Day Name",
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 18),
+                    SizedBox(height: 10),
+
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 3,
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        color: paleYellow.withOpacity(0.2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${controller.namazData!.englishDate.toLocal().toString().split(' ').first}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => pickEnglishDate(controller),
+                              child: const Text("Change"),
                             ),
                           ],
                         ),
@@ -278,7 +370,6 @@ class _NamazTimePageState extends State<NamazTimePage> {
 
                     const SizedBox(height: 18),
 
-                    /// NAMAZ TIMES
                     Text(
                       "Five Times Namaz",
                       style: TextStyle(
@@ -370,7 +461,6 @@ class _NamazTimePageState extends State<NamazTimePage> {
 
                     const SizedBox(height: 18),
 
-                    /// EXTRA TIMES
                     Text(
                       "Extra Times",
                       style: TextStyle(
@@ -440,9 +530,8 @@ class _NamazTimePageState extends State<NamazTimePage> {
 
                     const SizedBox(height: 28),
 
-                    /// BUTTONS
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton.icon(
                           onPressed: controller.isLoading
@@ -452,6 +541,29 @@ class _NamazTimePageState extends State<NamazTimePage> {
                           icon: const Icon(Icons.save, color: Colors.white),
                           label: const Text(
                             "Save",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: deepIndigo,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 12,
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Cardpage(),
+                              ),
+                            );
+                          },
+                          // icon: const Icon(Icons.save, color: Colors.white),
+                          label: const Text(
+                            "Show",
                             style: TextStyle(color: Colors.white),
                           ),
                           style: ElevatedButton.styleFrom(

@@ -1,35 +1,53 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class NamazTimeModel {
-  final String islamicDate;
+  final int? islamicDay;
+  final String? islamicMonth;
+  final int? islamicYear;
+  final String? islamicDayName;
   final DateTime englishDate;
   final Map<String, dynamic> namazTime;
   final Map<String, dynamic> extraTime;
 
   NamazTimeModel({
-    required this.islamicDate,
+    this.islamicDay,
+    this.islamicMonth,
+    this.islamicYear,
+    this.islamicDayName,
     required this.englishDate,
     required this.namazTime,
     required this.extraTime,
   });
 
+  /// Convert Firestore doc to Model
   factory NamazTimeModel.fromSnap(DocumentSnapshot snap) {
     final data = snap.data() as Map<String, dynamic>? ?? {};
     return NamazTimeModel.fromMap(data);
   }
 
   factory NamazTimeModel.fromMap(Map<String, dynamic> map) {
+    final islamic = map['islamicDate'] as Map<String, dynamic>? ?? {};
+
     return NamazTimeModel(
-      islamicDate: map['islamicDate'] ?? '',
+      islamicDay: islamic['day'],
+      islamicMonth: islamic['month'],
+      islamicYear: islamic['year'],
+      islamicDayName: islamic['dayName'],
       englishDate: _parseDate(map['englishDate']),
       namazTime: Map<String, dynamic>.from(map['namazTime'] ?? {}),
       extraTime: Map<String, dynamic>.from(map['extraTime'] ?? {}),
     );
   }
 
+  /// Convert Model to Firestore Map
   Map<String, dynamic> toMap() {
     return {
-      'islamicDate': islamicDate,
+      'islamicDate': {
+        'day': islamicDay,
+        'month': islamicMonth,
+        'year': islamicYear,
+        'dayName': islamicDayName,
+      },
       'englishDate': Timestamp.fromDate(englishDate),
       'namazTime': namazTime,
       'extraTime': extraTime,
@@ -37,13 +55,19 @@ class NamazTimeModel {
   }
 
   NamazTimeModel copyWith({
-    String? islamicDate,
+    int? islamicDay,
+    String? islamicMonth,
+    int? islamicYear,
+    String? islamicDayName,
     DateTime? englishDate,
     Map<String, dynamic>? namazTime,
     Map<String, dynamic>? extraTime,
   }) {
     return NamazTimeModel(
-      islamicDate: islamicDate ?? this.islamicDate,
+      islamicDay: islamicDay ?? this.islamicDay,
+      islamicMonth: islamicMonth ?? this.islamicMonth,
+      islamicYear: islamicYear ?? this.islamicYear,
+      islamicDayName: islamicDayName ?? this.islamicDayName,
       englishDate: englishDate ?? this.englishDate,
       namazTime: namazTime ?? this.namazTime,
       extraTime: extraTime ?? this.extraTime,
