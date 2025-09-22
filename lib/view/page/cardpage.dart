@@ -57,7 +57,7 @@ class _CardpageState extends State<Cardpage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Namaz Timetable Card",
+          "Namaz Timetable",
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: deepIndigo,
@@ -73,13 +73,78 @@ class _CardpageState extends State<Cardpage> {
           // if (controller.isLoading) {
           //   return const Center(child: CircularProgressIndicator());
           // }
+          final data = controller.namazData;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
             child: Center(
               child: Screenshot(
                 controller: screenshotController,
-                child: _buildNamazCard(),
+                child: Container(
+                  height: 600,
+                  // color: gold,
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            '${data?.islamicDay}-${data?.islamicMonth}-${data?.islamicYear}-${data?.islamicDayName}',
+                            style: GoogleFonts.roboto(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: green,
+                            ),
+                          ),
+                          Spacer(),
+                          Text(
+                            '${data?.englishDate.day}-${data?.englishDate.month}-${data?.englishDate.year}',
+                            style: GoogleFonts.roboto(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.pink,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        height: 560,
+                        color: const Color.fromARGB(255, 17, 84, 135),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            // First image - center
+                            Image.asset(
+                              "assets/images/image1.png",
+                              width: 300,
+                              fit: BoxFit.contain,
+                            ),
+
+                            // Second image - top left
+                            Positioned(
+                              top: 20,
+                              left: 20,
+                              child: Image.asset(
+                                "assets/images/image3.png",
+                                width: 120,
+                              ),
+                            ),
+
+                            // Third image - bottom right
+                            Positioned(
+                              bottom: 20,
+                              right: 20,
+                              child: Image.asset(
+                                "assets/images/image2.png",
+                                width: 120,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // _buildNamazCard()
               ),
             ),
           );
