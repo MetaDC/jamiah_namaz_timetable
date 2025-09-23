@@ -108,38 +108,71 @@ class _CardpageState extends State<Cardpage> {
                       ),
                       Container(
                         height: 560,
-                        color: const Color.fromARGB(255, 17, 84, 135),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // First image - center
-                            Image.asset(
-                              "assets/images/image1.png",
-                              width: 300,
-                              fit: BoxFit.contain,
-                            ),
+                        width: 400,
+                        // color: const Color.fromARGB(255, 17, 84, 135),
+                        child: true
+                            ? Column(
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Positioned(
+                                        child: Image.asset(
+                                          "assets/images/hedar-1.png",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Positioned(
+                                    top: 100,
+                                    // bottom: 50,
+                                    child: Image.asset(
+                                      "assets/images/footer-1.png",
+                                      height: 30,
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  // First image - center
 
-                            // Second image - top left
-                            Positioned(
-                              top: 20,
-                              left: 20,
-                              child: Image.asset(
-                                "assets/images/image3.png",
-                                width: 120,
-                              ),
-                            ),
+                                  // Second image - top left
+                                  Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Positioned(
+                                        top: 0,
+                                        // left: 20,
+                                        child: Image.asset(
+                                          "assets/images/image1.png",
+                                          width: 400,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 30,
+                                        child: Image.asset(
+                                          "assets/images/image3.png",
+                                          width: 40,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 100,
+                                        // bottom: 50,
+                                        // right: 50,
+                                        child: Image.asset(
+                                          "assets/images/image2.png",
+                                          width: 120,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
 
-                            // Third image - bottom right
-                            Positioned(
-                              bottom: 20,
-                              right: 20,
-                              child: Image.asset(
-                                "assets/images/image2.png",
-                                width: 120,
+                                  // Third image - bottom right
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
                       ),
                     ],
                   ),
