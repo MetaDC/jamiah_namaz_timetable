@@ -7,7 +7,6 @@ import 'package:jamiah_namaz_timetable/model/settingmodel.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Cardpage extends StatefulWidget {
   const Cardpage({super.key});
@@ -18,7 +17,6 @@ class Cardpage extends StatefulWidget {
 
 class _CardpageState extends State<Cardpage> {
   static const Color green = Color(0xFF4CAF50);
-  static const Color red = Color(0xFFF44336);
 
   final Homecntrl controller = Get.find<Homecntrl>();
   final ScreenshotController screenshotController = ScreenshotController();
@@ -41,7 +39,6 @@ class _CardpageState extends State<Cardpage> {
       'Saturday',
       'Sunday',
     ];
-
     String weekdayName = weekdays[date.weekday - 1];
     return "${date.day}-${date.month}-${date.year}-$weekdayName";
   }
@@ -65,18 +62,15 @@ class _CardpageState extends State<Cardpage> {
 
   String cleanTime(String? raw) {
     if (raw == null) return "--";
-
     String time = raw
         .replaceAll(RegExp(r'(am|pm)', caseSensitive: false), '')
         .trim();
-
     final parts = time.split(":");
     if (parts.length == 2) {
       final hour = parts[0].padLeft(2, '0');
       final minute = parts[1].padLeft(2, '0');
       return "$hour:$minute";
     }
-
     return time;
   }
 
@@ -84,14 +78,14 @@ class _CardpageState extends State<Cardpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Namaz Timetable",
-          style: TextStyle(color: Colors.white, fontSize: 16.sp),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.indigo,
         actions: [
           IconButton(
-            icon: Icon(Icons.share, color: Colors.white, size: 22.sp),
+            icon: const Icon(Icons.share, color: Colors.white),
             onPressed: _shareCard,
           ),
         ],
@@ -107,109 +101,103 @@ class _CardpageState extends State<Cardpage> {
           final zawal = cleanTime(data?.extraTime["Zawal"]);
           final gaftab = cleanTime(data?.extraTime["Gurebe Aftab"]);
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(12.w),
-            child: Center(
+          return Center(
+            child: SingleChildScrollView(
               child: Screenshot(
                 controller: screenshotController,
-                child: Container(
-                  // height: 608.h,
-                  width: 0.95.sw,
-                  // color: const Color(0xfffdfeff),
-                  decoration: BoxDecoration(
-                    border: Border.all(),
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/hedar-1.png",
-                            width: 1.sw,
-                            fit: BoxFit.cover,
-                          ),
-                          Positioned(
-                            top: 7.h,
-                            left: 5.w,
-                            child: Text(
-                              '${data?.islamicDay}-${data?.islamicMonth}-${data?.islamicYear}-${data?.islamicDayName}',
-                              style: GoogleFonts.roboto(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w900,
-                                color: green,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 7.h,
-                            right: 5.w,
-                            child: Text(
-                              formatEnglishDate(data!.englishDate),
-                              style: GoogleFonts.roboto(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.pink,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.all(0.w),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                child: FittedBox(
+                  child: Container(
+                    width: 400,
+                    height: 700,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
                           children: [
-                            Expanded(
-                              child: Column(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildNamazTable(data),
-                                  SizedBox(height: 10.h),
-                                  Image.asset(
-                                    "assets/images/subfooter.1.png",
-                                    height: 80.h,
-                                    width: 400.w,
-                                  ),
-                                ],
+                            Image.asset(
+                              "assets/images/hedar-1.png",
+                              width: 400,
+                              fit: BoxFit.cover,
+                            ),
+                            Positioned(
+                              top: 7,
+                              left: 10,
+                              child: Text(
+                                '${data?.islamicDay}-${data?.islamicMonth}-${data?.islamicYear}-${data?.islamicDayName}',
+                                style: GoogleFonts.roboto(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w900,
+                                  color: green,
+                                ),
                               ),
                             ),
-
-                            Column(
-                              children: [
-                                SizedBox(
-                                  width: 90.w,
-                                  child: _buildSehriIftarCard(sehri, iftar),
+                            Positioned(
+                              top: 7,
+                              right: 10,
+                              child: Text(
+                                formatEnglishDate(data!.englishDate),
+                                style: GoogleFonts.roboto(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.pink,
                                 ),
-                                SizedBox(height: 4.h),
-                                SizedBox(
-                                  width: 90.w,
-                                  child: _buildIshrakCard(
-                                    ishrak,
-                                    chast,
-                                    zawal,
-                                    gaftab,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
 
-                      SizedBox(height: 5.h),
-                      SizedBox(
-                        width: 450.w,
-                        child: Image.asset(
-                          "assets/images/footer-1.png",
-                          height: 40.h,
-                          // width: 700.w,
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    _buildNamazTable(data),
+                                    const SizedBox(height: 10),
+                                    Image.asset(
+                                      "assets/images/subfooter.1.png",
+                                      height: 80,
+                                      width: 300,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    child: _buildSehriIftarCard(sehri, iftar),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  SizedBox(
+                                    width: 100,
+                                    child: _buildIshrakCard(
+                                      ishrak,
+                                      chast,
+                                      zawal,
+                                      gaftab,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+
+                        const SizedBox(height: 5),
+                        Image.asset(
+                          "assets/images/footer-1.png",
+                          height: 40,
+                          width: 380,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -229,56 +217,50 @@ class _CardpageState extends State<Cardpage> {
       {"image": "assets/images/isha.png", "name": "Isha"},
     ];
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset("assets/images/nm.png", width: 80.w),
-              Image.asset("assets/images/av1.png", width: 80.w),
-              Image.asset("assets/images/ak1.png", width: 80.w),
-            ],
-          ),
-          SizedBox(height: 8.h),
-
-          ...times.map((entry) {
-            final name = entry["name"]!;
-            final image = entry["image"]!;
-            final firstTime = cleanTime(data?.namazTime[name]?["start"]);
-            final lastTime = cleanTime(data?.namazTime[name]?["end"]);
-
-            return Padding(
-              padding: EdgeInsets.symmetric(vertical: 4.h),
-              child: Row(
-                children: [
-                  Expanded(flex: 1, child: Image.asset(image)),
-                  SizedBox(width: 3.w),
-                  Expanded(
-                    flex: 1,
-                    child: _buildCustomTimeCell(
-                      time: firstTime,
-                      bgImage: "assets/images/image16.png",
-                      textColor: const Color(0xff3b5c38),
-                    ),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Image.asset("assets/images/nm.png", width: 70),
+            Image.asset("assets/images/av1.png", width: 70),
+            Image.asset("assets/images/ak1.png", width: 70),
+          ],
+        ),
+        const SizedBox(height: 8),
+        ...times.map((entry) {
+          final name = entry["name"]!;
+          final image = entry["image"]!;
+          final firstTime = cleanTime(data?.namazTime[name]?["start"]);
+          final lastTime = cleanTime(data?.namazTime[name]?["end"]);
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: Row(
+              children: [
+                Expanded(flex: 1, child: Image.asset(image, height: 35)),
+                const SizedBox(width: 3),
+                Expanded(
+                  flex: 1,
+                  child: _buildCustomTimeCell(
+                    time: firstTime,
+                    bgImage: "assets/images/image16.png",
+                    textColor: const Color(0xff3b5c38),
                   ),
-                  SizedBox(width: 4.w),
-                  Expanded(
-                    flex: 1,
-                    child: _buildCustomTimeCell(
-                      time: lastTime,
-                      bgImage: "assets/images/image17.png",
-                      textColor: const Color(0xff9d2a2a),
-                    ),
+                ),
+                const SizedBox(width: 4),
+                Expanded(
+                  flex: 1,
+                  child: _buildCustomTimeCell(
+                    time: lastTime,
+                    bgImage: "assets/images/image17.png",
+                    textColor: const Color(0xff9d2a2a),
                   ),
-                ],
-              ),
-            );
-          }).toList(),
-        ],
-      ),
+                ),
+              ],
+            ),
+          );
+        }).toList(),
+      ],
     );
   }
 
@@ -290,16 +272,13 @@ class _CardpageState extends State<Cardpage> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Image.asset(bgImage, width: 80.w, fit: BoxFit.contain),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 6.h),
-          child: Text(
-            time,
-            style: TextStyle(
-              fontSize: 17.sp,
-              fontWeight: FontWeight.w800,
-              color: textColor,
-            ),
+        Image.asset(bgImage, width: 80, fit: BoxFit.contain),
+        Text(
+          time,
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: textColor,
           ),
         ),
       ],
@@ -311,21 +290,18 @@ class _CardpageState extends State<Cardpage> {
       children: [
         Image.asset(
           "assets/images/image19.png",
-          height: 110.h,
-          // width: 130.w,
+          height: 120,
           fit: BoxFit.contain,
         ),
-        Container(
-          width: 75.w,
-          height: 110.h,
+        SizedBox(
+          height: 120,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 "ખત્મે સેહરી",
                 style: TextStyle(
-                  fontSize: 11.sp,
+                  fontSize: 12,
                   color: const Color(0xff8f2e43),
                   fontWeight: FontWeight.w600,
                 ),
@@ -333,16 +309,16 @@ class _CardpageState extends State<Cardpage> {
               Text(
                 sehri,
                 style: TextStyle(
-                  fontSize: 15.sp,
+                  fontSize: 16,
                   color: const Color(0xff8f2e43),
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Divider(height: 3, color: Colors.grey, indent: 15, endIndent: 25),
+              const Divider(),
               Text(
                 "વકતે ઇફતાર",
                 style: TextStyle(
-                  fontSize: 12.sp,
+                  fontSize: 12,
                   color: const Color(0xff306d71),
                   fontWeight: FontWeight.w600,
                 ),
@@ -350,7 +326,7 @@ class _CardpageState extends State<Cardpage> {
               Text(
                 iftar,
                 style: TextStyle(
-                  fontSize: 15.sp,
+                  fontSize: 16,
                   color: const Color(0xff306d71),
                   fontWeight: FontWeight.w600,
                 ),
@@ -372,25 +348,20 @@ class _CardpageState extends State<Cardpage> {
       children: [
         Image.asset(
           "assets/images/image7.png",
-          height: 270.h,
-          // width: 140.w,
+          height: 260,
           fit: BoxFit.contain,
         ),
-        Container(
-          height: 270.h,
-          width: 75.w,
-          // top: 18.h,
-          // left: 10.w,
+        SizedBox(
+          height: 260,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _ishrakText("ઇશરાક", ishrak, const Color(0xff302c8e)),
-              Divider(height: 3, color: Colors.grey, indent: 15, endIndent: 25),
+              const Divider(),
               _ishrakText("ચાશ્ત", chast, const Color(0xff377bb8)),
-              Divider(height: 3, color: Colors.grey, indent: 15, endIndent: 25),
+              const Divider(),
               _ishrakText("ઝવાલ", zawal, const Color(0xff448532)),
-              Divider(height: 3, color: Colors.grey, indent: 15, endIndent: 25),
+              const Divider(),
               _ishrakText("ગુરૂબે\nઆફતાબ", gaftab, const Color(0xff876b61)),
             ],
           ),
@@ -401,23 +372,20 @@ class _CardpageState extends State<Cardpage> {
 
   Widget _ishrakText(String label, String time, Color color) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           label,
-
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 13.sp,
+            fontSize: 13,
             color: color,
             fontWeight: FontWeight.w700,
           ),
         ),
         Text(
           time,
-          // textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 14.sp,
+            fontSize: 14,
             color: color,
             fontWeight: FontWeight.w700,
           ),
