@@ -26,27 +26,27 @@ class _NamazTimePageState extends State<NamazTimePage> {
   ];
 
   final islamicMonths = [
-    "મહોરમ",
+    "મોહર્રમ",
     "સફર",
-    "રબ્બિ ઉલ અવલ",
-    "રબ્બિ ઉલ આખિર",
-    "જમાદિ ઉલ અવલ",
-    "જમાદિ ઉલ આખિર",
-    "રજ્જબ",
+    "ર.અવ્વલ",
+    "ર.સાની",
+    "જ.અવ્વલ",
+    "જ.સાની",
+    "રજબ",
     "શાબાન",
     "રમઝાન",
-    "સવાલ",
-    "જિલકદ",
-    "જિલહજ",
+    "શવ્વાલ",
+    "ઝીલ્કદ",
+    "ઝીલ્હજ્જ",
   ];
 
   final islamicDayNames = [
-    "શનિચર",
+    "સનીચર",
     "ઇતવાર",
     "પીર",
     "મંગલ",
     "બુધ",
-    "જુમ્એરાત",
+    "જુમેરાત",
     "જુમ્મા",
   ];
 
@@ -68,7 +68,7 @@ class _NamazTimePageState extends State<NamazTimePage> {
   void initState() {
     super.initState();
 
-    final currentYear = DateTime.now().year + 579;
+    final currentYear = DateTime.now().year - 578;
     islamicYears = [currentYear - 1, currentYear, currentYear + 1];
 
     Future.delayed(Duration.zero, () async {
