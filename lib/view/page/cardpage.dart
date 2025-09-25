@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,7 +46,7 @@ class _CardpageState extends State<Cardpage> {
 
   Future<void> _shareCard() async {
     try {
-      final image = await screenshotController.capture();
+      final image = await screenshotController.capture(pixelRatio: 10);
       if (image != null) {
         final tempDir = await getTemporaryDirectory();
         final file = await File(
@@ -101,105 +102,188 @@ class _CardpageState extends State<Cardpage> {
           final zawal = cleanTime(data?.extraTime["Zawal"]);
           final gaftab = cleanTime(data?.extraTime["Gurebe Aftab"]);
 
-          return Center(
-            child: SingleChildScrollView(
-              child: Screenshot(
-                controller: screenshotController,
-                child: FittedBox(
-                  child: Container(
-                    width: 400,
-                    height: 700,
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      color: Colors.white,
-                    ),
-                    child: Column(
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
+          return Screenshot(
+            controller: screenshotController,
+            child: SizedBox(
+              width: 800,
+              height: 1200,
+              child: Stack(
+                fit: StackFit.expand,
+                alignment: Alignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/taqwim.png",
+                    // width: 800,
+                    // height: 1200,
+                    fit: BoxFit.fill,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        height: 45,
+                        color: Colors.amber.withOpacity(.5),
+                        child: Row(),
+                      ),
+                      Expanded(
+                        child: Column(
                           children: [
-                            Image.asset(
-                              "assets/images/hedar-1.png",
-                              width: 400,
-                              fit: BoxFit.cover,
-                            ),
-                            Positioned(
-                              top: 7,
-                              left: 10,
-                              child: Text(
-                                '${data?.islamicDay}-${data?.islamicMonth}-${data?.islamicYear}-${data?.islamicDayName}',
-                                style: GoogleFonts.roboto(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w900,
-                                  color: green,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 7,
-                              right: 10,
-                              child: Text(
-                                formatEnglishDate(data!.englishDate),
-                                style: GoogleFonts.roboto(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w900,
-                                  color: Colors.pink,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  children: [
-                                    _buildNamazTable(data),
-                                    const SizedBox(height: 10),
-                                    Image.asset(
-                                      "assets/images/subfooter.1.png",
-                                      height: 80,
-                                      width: 300,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Column(
+                            Expanded(
+                              child: Row(
                                 children: [
-                                  SizedBox(
-                                    width: 100,
-                                    child: _buildSehriIftarCard(sehri, iftar),
+                                  Expanded(
+                                    // flex: 9,
+                                    child: Container(
+                                      color: Colors.green.withOpacity(.5),
+                                      child: Column(),
+                                    ),
                                   ),
-                                  const SizedBox(height: 4),
-                                  SizedBox(
-                                    width: 100,
-                                    child: _buildIshrakCard(
-                                      ishrak,
-                                      chast,
-                                      zawal,
-                                      gaftab,
+                                  Expanded(
+                                    // flex: 3,
+                                    child: Container(
+                                      color: Colors.blue.withOpacity(.5),
+                                      child: Column(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    // flex: 3,
+                                    child: Container(
+                                      color: Colors.red.withOpacity(.5),
+                                      child: Column(),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    // flex: 3,
+                                    child: Container(
+                                      color: Colors.orange.withOpacity(.5),
+                                      child: Column(),
                                     ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-
-                        const SizedBox(height: 5),
-                        Image.asset(
-                          "assets/images/footer-1.png",
-                          height: 40,
-                          width: 380,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
+                  // Positioned(
+                  //   top: 18,
+                  //   left: 10,
+                  //   child: AutoSizeText(
+                  //     '${data?.islamicDay}-${data?.islamicMonth}-${data?.islamicYear}-${data?.islamicDayName}',
+                  //     style: GoogleFonts.roboto(
+                  //       fontSize: 30,
+                  //       fontWeight: FontWeight.w900,
+                  //       color: green,
+                  //     ),
+                  //     maxLines: 1,
+                  //     minFontSize: 10,
+                  //   ),
+                  // ),
+                  // Positioned(
+                  //   top: 18,
+                  //   right: 10,
+                  //   child: AutoSizeText(
+                  //     formatEnglishDate(data!.englishDate),
+                  //     style: GoogleFonts.roboto(
+                  //       fontSize: 28,
+                  //       fontWeight: FontWeight.w900,
+                  //       color: Colors.pink,
+                  //     ),
+                  //   ),
+                  // ),
+                  // // Start Namaz times
+                  // buildNamazText(
+                  //   top: 485,
+                  //   left: 245,
+                  //   text: cleanTime(data.namazTime["Fajr"]?["start"] ?? ""),
+                  // ),
+                  // buildNamazText(
+                  //   top: 570,
+                  //   left: 245,
+                  //   text: cleanTime(data.namazTime["Dhuhr"]?["start"] ?? ""),
+                  // ),
+                  // buildNamazText(
+                  //   top: 655,
+                  //   left: 245,
+                  //   text: cleanTime(data.namazTime["Asr"]?["start"] ?? ""),
+                  // ),
+                  // buildNamazText(
+                  //   top: 740,
+                  //   left: 245,
+                  //   text: cleanTime(
+                  //     data.namazTime["Maghrib"]?["start"] ?? "",
+                  //   ),
+                  // ),
+                  // buildNamazText(
+                  //   top: 830,
+                  //   left: 245,
+                  //   text: cleanTime(data.namazTime["Isha"]?["start"] ?? ""),
+                  // ),
+                  // // End Namaz times
+                  // buildNamazEndText(
+                  //   top: 485,
+                  //   left: 430,
+                  //   text: cleanTime(data.namazTime["Fajr"]?["end"] ?? ""),
+                  // ),
+                  // buildNamazEndText(
+                  //   top: 570,
+                  //   left: 430,
+                  //   text: cleanTime(data.namazTime["Dhuhr"]?["end"] ?? ""),
+                  // ),
+                  // buildNamazEndText(
+                  //   top: 655,
+                  //   left: 430,
+                  //   text: cleanTime(data.namazTime["Asr"]?["end"] ?? ""),
+                  // ),
+                  // buildNamazEndText(
+                  //   top: 740,
+                  //   left: 430,
+                  //   text: cleanTime(data.namazTime["Maghrib"]?["end"] ?? ""),
+                  // ),
+                  // buildNamazEndText(
+                  //   top: 830,
+                  //   left: 430,
+                  //   text: cleanTime(data.namazTime["Isha"]?["end"] ?? ""),
+                  // ),
+                  // // Extra times
+                  // buildNamazExtraTime(
+                  //   top: 440,
+                  //   right: 40,
+                  //   text: sehri,
+                  //   color: Color(0xff8f2e43),
+                  // ),
+                  // buildNamazExtraTime(
+                  //   top: 530,
+                  //   right: 40,
+                  //   text: iftar,
+                  //   color: Color(0xff306d71),
+                  // ),
+                  // buildNamazExtraTime(
+                  //   top: 680,
+                  //   right: 40,
+                  //   text: ishrak,
+                  //   color: Color(0xff302c8e),
+                  // ),
+                  // buildNamazExtraTime(
+                  //   top: 780,
+                  //   right: 40,
+                  //   text: chast,
+                  //   color: Color(0xff377bb8),
+                  // ),
+                  // buildNamazExtraTime(
+                  //   top: 875,
+                  //   right: 40,
+                  //   text: zawal,
+                  //   color: Color(0xff448532),
+                  // ),
+                  // buildNamazExtraTime(
+                  //   top: 1008,
+                  //   right: 40,
+                  //   text: gaftab,
+                  //   color: Color(0xff876b61),
+                  // ),
+                ],
               ),
             ),
           );
@@ -208,189 +292,286 @@ class _CardpageState extends State<Cardpage> {
     );
   }
 
-  Widget _buildNamazTable(NamazTimeModel? data) {
-    final times = [
-      {"image": "assets/images/fzr.png", "name": "Fajr"},
-      {"image": "assets/images/zhr.png", "name": "Dhuhr"},
-      {"image": "assets/images/asr.png", "name": "Asr"},
-      {"image": "assets/images/magrb.png", "name": "Maghrib"},
-      {"image": "assets/images/isha.png", "name": "Isha"},
-    ];
-
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Image.asset("assets/images/nm.png", width: 70),
-            Image.asset("assets/images/av1.png", width: 70),
-            Image.asset("assets/images/ak1.png", width: 70),
-          ],
-        ),
-        const SizedBox(height: 8),
-        ...times.map((entry) {
-          final name = entry["name"]!;
-          final image = entry["image"]!;
-          final firstTime = cleanTime(data?.namazTime[name]?["start"]);
-          final lastTime = cleanTime(data?.namazTime[name]?["end"]);
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              children: [
-                Expanded(flex: 1, child: Image.asset(image, height: 35)),
-                const SizedBox(width: 3),
-                Expanded(
-                  flex: 1,
-                  child: _buildCustomTimeCell(
-                    time: firstTime,
-                    bgImage: "assets/images/image16.png",
-                    textColor: const Color(0xff3b5c38),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                Expanded(
-                  flex: 1,
-                  child: _buildCustomTimeCell(
-                    time: lastTime,
-                    bgImage: "assets/images/image17.png",
-                    textColor: const Color(0xff9d2a2a),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }).toList(),
-      ],
-    );
-  }
-
-  Widget _buildCustomTimeCell({
-    required String time,
-    required String bgImage,
-    required Color textColor,
+  Widget buildNamazText({
+    required double top,
+    required double left,
+    required String text,
   }) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Image.asset(bgImage, width: 80, fit: BoxFit.contain),
-        Text(
-          time,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: textColor,
-          ),
+    return Positioned(
+      top: top,
+      left: left,
+      child: AutoSizeText(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 40,
+          color: Color(0xff3b5c38),
+          fontWeight: FontWeight.w600,
         ),
-      ],
+        maxLines: 1,
+        minFontSize: 10,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
-  Widget _buildSehriIftarCard(String sehri, String iftar) {
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/images/image19.png",
-          height: 120,
-          fit: BoxFit.contain,
+  Widget buildNamazEndText({
+    required double top,
+    required double left,
+    required String text,
+  }) {
+    return Positioned(
+      top: top,
+      left: left,
+      child: AutoSizeText(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 40,
+          color: Color(0xff9d2a2a),
+          fontWeight: FontWeight.w600,
         ),
-        SizedBox(
-          height: 120,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "ખત્મે સેહરી",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: const Color(0xff8f2e43),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                sehri,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: const Color(0xff8f2e43),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const Divider(),
-              Text(
-                "વકતે ઇફતાર",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: const Color(0xff306d71),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                iftar,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: const Color(0xff306d71),
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+        maxLines: 1,
+        minFontSize: 10,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 
-  Widget _buildIshrakCard(
-    String ishrak,
-    String chast,
-    String zawal,
-    String gaftab,
-  ) {
-    return Stack(
-      children: [
-        Image.asset(
-          "assets/images/image7.png",
-          height: 260,
-          fit: BoxFit.contain,
+  Widget buildNamazExtraTime({
+    required double top,
+    required double right,
+    required String text,
+    required Color color,
+  }) {
+    return Positioned(
+      top: top,
+      right: right,
+      child: AutoSizeText(
+        text,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 40,
+          color: color,
+          fontWeight: FontWeight.w600,
         ),
-        SizedBox(
-          height: 260,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _ishrakText("ઇશરાક", ishrak, const Color(0xff302c8e)),
-              const Divider(),
-              _ishrakText("ચાશ્ત", chast, const Color(0xff377bb8)),
-              const Divider(),
-              _ishrakText("ઝવાલ", zawal, const Color(0xff448532)),
-              const Divider(),
-              _ishrakText("ગુરૂબે\nઆફતાબ", gaftab, const Color(0xff876b61)),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _ishrakText(String label, String time, Color color) {
-    return Column(
-      children: [
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 13,
-            color: color,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        Text(
-          time,
-          style: TextStyle(
-            fontSize: 14,
-            color: color,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
+        maxLines: 1,
+        minFontSize: 10,
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }
+// Widget _buildNamazTable(NamazTimeModel? data) {
+  //   final times = [
+  //     {"image": "assets/images/fzr.png", "name": "Fajr"},
+  //     {"image": "assets/images/zhr.png", "name": "Dhuhr"},
+  //     {"image": "assets/images/asr.png", "name": "Asr"},
+  //     {"image": "assets/images/magrb.png", "name": "Maghrib"},
+  //     {"image": "assets/images/isha.png", "name": "Isha"},
+  //   ];
+
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //         children: [
+  //           Image.asset("assets/images/nm.png", height: 33),
+  //           Image.asset("assets/images/av1.png", height: 33),
+  //           Image.asset("assets/images/ak1.png", height: 33),
+  //         ],
+  //       ),
+  //       const SizedBox(height: 8),
+  //       ...times.map((entry) {
+  //         final name = entry["name"]!;
+  //         final image = entry["image"]!;
+  //         final firstTime = cleanTime(data?.namazTime[name]?["start"]);
+  //         final lastTime = cleanTime(data?.namazTime[name]?["end"]);
+  //         return Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 4),
+  //           child: Row(
+  //             children: [
+  //               Expanded(flex: 1, child: Image.asset(image, height: 35)),
+  //               const SizedBox(width: 3),
+  //               Expanded(
+  //                 flex: 1,
+  //                 child: _buildCustomTimeCell(
+  //                   time: firstTime,
+  //                   bgImage: "assets/images/image16.png",
+  //                   textColor: const Color(0xff3b5c38),
+  //                 ),
+  //               ),
+  //               const SizedBox(width: 4),
+  //               Expanded(
+  //                 flex: 1,
+  //                 child: _buildCustomTimeCell(
+  //                   time: lastTime,
+  //                   bgImage: "assets/images/image17.png",
+  //                   textColor: const Color(0xff9d2a2a),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         );
+  //       }).toList(),
+  //     ],
+  //   );
+  // }
+
+ 
+
+  // Widget _buildCustomTimeCell({
+  //   required String time,
+  //   required String bgImage,
+  //   required Color textColor,
+  // }) {
+  //   return Stack(
+  //     alignment: Alignment.center,
+  //     children: [
+  //       Image.asset(bgImage, width: 80, fit: BoxFit.contain),
+  //       Text(
+  //         time,
+  //         style: TextStyle(
+  //           fontSize: 19,
+  //           fontWeight: FontWeight.w700,
+  //           color: textColor,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // Widget _buildSehriIftarCard(String sehri, String iftar) {
+  //   return Stack(
+  //     alignment: Alignment.center,
+  //     children: [
+  //       Image.asset(
+  //         "assets/images/image19.png",
+  //         height: 120,
+  //         fit: BoxFit.contain,
+  //       ),
+  //       SizedBox(
+  //         height: 120,
+  //         width: 90,
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           children: [
+  //             AutoSizeText(
+  //               "ખત્મે સેહરી",
+  //               maxLines: 1,
+  //               minFontSize: 8,
+  //               textAlign: TextAlign.center,
+  //               style: const TextStyle(
+  //                 fontSize: 13,
+  //                 color: Color(0xff8f2e43),
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //             AutoSizeText(
+  //               sehri,
+  //               maxLines: 1,
+  //               minFontSize: 10,
+  //               textAlign: TextAlign.center,
+  //               style: const TextStyle(
+  //                 fontSize: 16,
+  //                 color: Color(0xff8f2e43),
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //             const Divider(indent: 10, endIndent: 10),
+  //             AutoSizeText(
+  //               "વકતે ઇફતાર",
+  //               maxLines: 1,
+  //               minFontSize: 8,
+  //               textAlign: TextAlign.center,
+  //               style: const TextStyle(
+  //                 fontSize: 13,
+  //                 color: Color(0xff306d71),
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //             AutoSizeText(
+  //               iftar,
+  //               maxLines: 1,
+  //               minFontSize: 10,
+  //               textAlign: TextAlign.center,
+  //               style: const TextStyle(
+  //                 fontSize: 16,
+  //                 color: Color(0xff306d71),
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // Widget _buildIshrakCard(
+  //   String ishrak,
+  //   String chast,
+  //   String zawal,
+  //   String gaftab,
+  // ) {
+  //   return Stack(
+  //     alignment: Alignment.center,
+  //     children: [
+  //       Image.asset(
+  //         "assets/images/image7.png",
+  //         height: 250,
+  //         fit: BoxFit.contain,
+  //       ),
+  //       SizedBox(
+  //         width: 40,
+  //         height: 250,
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           // crossAxisAlignment: CrossAxisAlignment.center,
+  //           // mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             _ishrakText("ઇશરાક", ishrak, const Color(0xff302c8e)),
+  //             const Divider(),
+  //             _ishrakText("ચાશ્ત", chast, const Color(0xff377bb8)),
+  //             const Divider(),
+  //             _ishrakText("ઝવાલ", zawal, const Color(0xff448532)),
+  //             const Divider(),
+  //             _ishrakText("ગુરૂબે\nઆફતાબ", gaftab, const Color(0xff876b61)),
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
+  // Widget _ishrakText(String label, String time, Color color) {
+  //   return Column(
+  //     mainAxisSize: MainAxisSize.min,
+  //     children: [
+  //       AutoSizeText(
+  //         label,
+  //         maxLines: 2,
+  //         minFontSize: 8,
+  //         maxFontSize: 14,
+  //         textAlign: TextAlign.center,
+  //         style: TextStyle(
+  //           fontSize: 12,
+  //           color: color,
+  //           fontWeight: FontWeight.w700,
+  //         ),
+  //       ),
+  //       AutoSizeText(
+  //         time,
+  //         maxLines: 1,
+  //         minFontSize: 10,
+  //         maxFontSize: 19,
+  //         textAlign: TextAlign.center,
+  //         style: TextStyle(
+  //           fontSize: 19,
+  //           color: color,
+  //           fontWeight: FontWeight.w700,
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
