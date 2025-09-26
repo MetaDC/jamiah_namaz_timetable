@@ -30,8 +30,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(
+            context,
+          ).copyWith(textScaler: const TextScaler.linear(1.0)),
+          child: child!,
+        );
+      },
       title: 'Jamiah-timetable',
       home: SplashScreen(),
+      // theme: ThemeData(useMaterial3: true, textTheme: TextTheme()),
     );
   }
 }
