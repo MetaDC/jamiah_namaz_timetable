@@ -5,6 +5,7 @@ class NamazTimeModel {
   final String? islamicMonth;
   final int? islamicYear;
   final String? islamicDayName;
+  final String? duaText;
   final DateTime englishDate;
   final Map<String, dynamic> namazTime;
   final Map<String, dynamic> extraTime;
@@ -14,6 +15,7 @@ class NamazTimeModel {
     this.islamicMonth,
     this.islamicYear,
     this.islamicDayName,
+    this.duaText,
     required this.englishDate,
     required this.namazTime,
     required this.extraTime,
@@ -31,6 +33,7 @@ class NamazTimeModel {
     return NamazTimeModel(
       islamicDay: islamic['day'],
       islamicMonth: islamic['month'],
+      duaText: islamic['duaText'],
       islamicYear: islamic['year'],
       islamicDayName: islamic['dayName'],
       englishDate: _parseDate(map['englishDate']),
@@ -47,6 +50,7 @@ class NamazTimeModel {
         'month': islamicMonth,
         'year': islamicYear,
         'dayName': islamicDayName,
+        'duaText': duaText,
       },
       'englishDate': Timestamp.fromDate(englishDate),
       'namazTime': namazTime,
@@ -58,6 +62,7 @@ class NamazTimeModel {
     int? islamicDay,
     String? islamicMonth,
     int? islamicYear,
+    String? duaText,
     String? islamicDayName,
     DateTime? englishDate,
     Map<String, dynamic>? namazTime,
@@ -66,6 +71,7 @@ class NamazTimeModel {
     return NamazTimeModel(
       islamicDay: islamicDay ?? this.islamicDay,
       islamicMonth: islamicMonth ?? this.islamicMonth,
+      duaText: duaText ?? this.duaText,
       islamicYear: islamicYear ?? this.islamicYear,
       islamicDayName: islamicDayName ?? this.islamicDayName,
       englishDate: englishDate ?? this.englishDate,

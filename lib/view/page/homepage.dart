@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jamiah_namaz_timetable/controller/homecntrl.dart';
+import 'package:jamiah_namaz_timetable/model/settingmodel.dart';
 import 'package:jamiah_namaz_timetable/view/page/cardpage.dart';
 
 class NamazTimePage extends StatefulWidget {
@@ -63,6 +64,7 @@ class _NamazTimePageState extends State<NamazTimePage> {
     return gujaratiNumber;
   });
   DateTime englishDate = DateTime.now();
+  final TextEditingController duaController = TextEditingController();
 
   @override
   void initState() {
@@ -528,6 +530,26 @@ class _NamazTimePageState extends State<NamazTimePage> {
                       ),
                     ),
 
+                    const SizedBox(height: 18),
+                    Text(
+                      "Dua Text",
+                      style: TextStyle(
+                        color: deepIndigo,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: controller.duaCntrl,
+                      maxLines: 3,
+                      decoration: InputDecoration(
+                        hintText: "Enter dua text here...",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 28),
 
                     Row(
@@ -536,8 +558,11 @@ class _NamazTimePageState extends State<NamazTimePage> {
                         ElevatedButton.icon(
                           onPressed: controller.isLoading
                               ? null
-                              : () =>
-                                    controller.saveData(controller.namazData!),
+                              : () => controller.saveData(
+                                  controller.namazData!.copyWith(
+                                    duaText: controller.duaCntrl.text,
+                                  ),
+                                ),
                           icon: const Icon(Icons.save, color: Colors.white),
                           label: const Text(
                             "Save",

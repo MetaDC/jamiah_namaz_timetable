@@ -196,148 +196,274 @@ class _CardpageState extends State<Cardpage> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: Column(
+                                  child: Stack(
                                     children: [
-                                      Expanded(
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Container(
-                                                // color: Colors.green.withOpacity(.5),
-                                                child: Column(),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                // color: Colors.blue.withOpacity(.5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  spacing: 10,
-                                                  children: [
-                                                    SizedBox(height: 30),
-                                                    buildNamazText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Fajr"]?["start"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Dhuhr"]?["start"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Asr"]?["start"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Maghrib"]?["start"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Isha"]?["start"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                  ],
+                                      Column(
+                                        children: [
+                                          Expanded(
+                                            child: Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    // color: Colors.green.withOpacity(.5),
+                                                    child: Column(),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                // color: Colors.red.withOpacity(.5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  spacing: 10,
-                                                  children: [
-                                                    SizedBox(height: 30),
-                                                    // End Namaz times
-                                                    buildNamazEndText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Fajr"]?["end"] ??
-                                                            "",
-                                                      ),
+                                                Expanded(
+                                                  child: Container(
+                                                    // color: Colors.blue.withOpacity(.5),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      spacing: 10,
+                                                      children: [
+                                                        SizedBox(height: 30),
+                                                        buildNamazText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Fajr"]?["start"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Dhuhr"]?["start"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Asr"]?["start"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Maghrib"]?["start"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Isha"]?["start"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    buildNamazEndText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Dhuhr"]?["end"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazEndText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Asr"]?["end"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazEndText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Maghrib"]?["end"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                    buildNamazEndText(
-                                                      text: cleanTime(
-                                                        data.namazTime["Isha"]?["end"] ??
-                                                            "",
-                                                      ),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: Container(
-                                                // color: Colors.orange.withOpacity(.5),
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(height: 165),
-                                                    buildNamazExtraTime(
-                                                      text: sehri,
-                                                      color: Color(0xff8f2e43),
+                                                Expanded(
+                                                  child: Container(
+                                                    // color: Colors.red.withOpacity(.5),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      spacing: 10,
+                                                      children: [
+                                                        SizedBox(height: 30),
+                                                        // End Namaz times
+                                                        buildNamazEndText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Fajr"]?["end"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazEndText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Dhuhr"]?["end"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazEndText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Asr"]?["end"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazEndText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Maghrib"]?["end"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                        buildNamazEndText(
+                                                          text: cleanTime(
+                                                            data.namazTime["Isha"]?["end"] ??
+                                                                "",
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                    SizedBox(height: 18),
-                                                    buildNamazExtraTime(
-                                                      text: iftar,
-                                                      color: Color(0xff306d71),
-                                                    ),
-                                                    SizedBox(height: 43),
-                                                    buildNamazExtraTime(
-                                                      text: ishrak,
-                                                      color: Color(0xff302c8e),
-                                                    ),
-                                                    SizedBox(height: 22),
-                                                    buildNamazExtraTime(
-                                                      text: chast,
-                                                      color: Color(0xff377bb8),
-                                                    ),
-                                                    SizedBox(height: 21),
-                                                    buildNamazExtraTime(
-                                                      text: zawal,
-                                                      color: Color(0xff448532),
-                                                    ),
-                                                    SizedBox(height: 37),
-                                                    buildNamazExtraTime(
-                                                      text: gaftab,
-                                                      color: Color(0xff876b61),
-                                                    ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
+                                                Expanded(
+                                                  child: Container(
+                                                    // color: Colors.orange.withOpacity(.5),
+                                                    child: Column(
+                                                      children: [
+                                                        SizedBox(height: 165),
+                                                        buildNamazExtraTime(
+                                                          text: sehri,
+                                                          color: Color(
+                                                            0xff8f2e43,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 18),
+                                                        buildNamazExtraTime(
+                                                          text: iftar,
+                                                          color: Color(
+                                                            0xff306d71,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 43),
+                                                        buildNamazExtraTime(
+                                                          text: ishrak,
+                                                          color: Color(
+                                                            0xff302c8e,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 22),
+                                                        buildNamazExtraTime(
+                                                          text: chast,
+                                                          color: Color(
+                                                            0xff377bb8,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 21),
+                                                        buildNamazExtraTime(
+                                                          text: zawal,
+                                                          color: Color(
+                                                            0xff448532,
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 37),
+                                                        buildNamazExtraTime(
+                                                          text: gaftab,
+                                                          color: Color(
+                                                            0xff876b61,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
+
+                                      true
+                                          ? Column(
+                                              children: [
+                                                SizedBox(height: 415),
+                                                Row(
+                                                  children: [
+                                                    SizedBox(width: 10),
+                                                    Expanded(
+                                                      flex: 3,
+                                                      child: Container(
+                                                        height:
+                                                            58 /
+                                                            564.3 *
+                                                            564.3, // Proportional height
+                                                        width: 210,
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: AutoSizeText(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            data?.duaText ?? "",
+                                                            style: TextStyle(
+                                                              // fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )
+                                          : Positioned(
+                                              top:
+                                                  413 /
+                                                  564.3 *
+                                                  564.3, // Or simply keep as 413 if image size is fixed
+                                              left:
+                                                  10 /
+                                                  400 *
+                                                  400, // Or simply keep as 10 if image size is fixed
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Container(
+                                                        height:
+                                                            58 /
+                                                            564.3 *
+                                                            564.3, // Proportional height
+                                                        width:
+                                                            (270 / 400) *
+                                                            400, // Proportional width
+                                                        color: Colors.white,
+                                                        child: Center(
+                                                          child: AutoSizeText(
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            data?.duaText ?? "",
+                                                            style: TextStyle(
+                                                              // fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                      // Positioned(
+                                      //   top: 413,
+                                      //   left: 10,
+                                      //   child: Column(
+                                      //     // crossAxisAlignment: ,
+                                      //     children: [
+                                      //       Container(
+                                      //         height: 58,
+                                      //         width: 270,
+                                      //         color: Colors.white,
+                                      //         child: Center(
+                                      //           child: AutoSizeText(
+                                      //             textAlign: TextAlign.center,
+                                      //             data?.duaText ?? "",
+                                      //             style: TextStyle(
+                                      //               fontSize: 14,
+                                      //               fontWeight: FontWeight.bold,
+                                      //             ),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ),
