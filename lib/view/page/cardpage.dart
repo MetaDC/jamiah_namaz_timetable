@@ -164,7 +164,7 @@ class _CardpageState extends State<Cardpage> {
                             ),
                             Column(
                               children: [
-                                Container(
+                                SizedBox(
                                   height: 45,
                                   // color: Colors.amber.withOpacity(.5),
                                   child: Padding(
@@ -380,7 +380,7 @@ class _CardpageState extends State<Cardpage> {
                                                                 .center,
                                                             data?.duaText ?? "",
                                                             style: TextStyle(
-                                                              // fontSize: 18,
+                                                              // fontSize: 24,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
